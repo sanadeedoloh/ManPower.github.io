@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Validation helper
+    function isValidSchedule(data) {
+      return data.keys().hasAll(['asset', 'liveDate', 'parsedDate', 'liveTime', 'endTime', 'kolName', 'studio'])
+          && data.asset is string && data.asset.size() <= 100
+          && data.liveDate is string && data.liveDate.size() <= 50
+          && data.parsedDate is string // ISO string from Date.toISOString()
+          && data.liveTime is string && data.liveTime.size() <= 10
+          && data.endTime is string && data.endTime.size() <= 10
+          && data.kolName is string && data.kolName.size() <= 200
+          && data.studio is string && data.studio.size() <= 100;
+    }
+
+    match /schedules/{eventId} {
+      // Allow public read
+      allow read: if true;
+      
+      // Allow create/update if signed in and matches schema
+      allow create, update: if request.auth != null && isValidSchedule(request.resource.data);
+      
+      // Allow delete if signed in
+      allow delete: if request.auth != null;
+    }
+  }
+}

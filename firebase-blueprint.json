@@ -1,0 +1,31 @@
+{
+  "entities": {
+    "ScheduleEvent": {
+      "title": "Schedule Event",
+      "description": "A live streaming schedule event",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "asset": { "type": "string" },
+        "liveDate": { "type": "string" },
+        "parsedDate": { "type": "string", "format": "date-time" },
+        "liveTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "kolName": { "type": "string" },
+        "studio": { "type": "string" },
+        "tech1": { "type": "string" },
+        "tech2": { "type": "string" },
+        "tech3": { "type": "string" },
+        "leaveStatus": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "required": ["asset", "liveDate", "liveTime", "endTime", "kolName", "studio"]
+    }
+  },
+  "firestore": {
+    "schedules/{eventId}": {
+      "schema": "ScheduleEvent",
+      "description": "Collection of all live streaming schedules"
+    }
+  }
+}
