@@ -1,6 +1,0 @@
-{
-  "name": "Live Schedule Manager",
-  "description": "A monthly calendar app for tracking live streaming schedules from CSV data with upload capabilities.",
-  "requestFramePermissions": [],
-  "majorCapabilities": []
-}
